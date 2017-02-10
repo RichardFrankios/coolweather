@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 当前天气 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <!-- 温度 -->
+    <TextView
+        android:id="@+id/tv_now_degree"
+        android:layout_gravity="end"
+        android:textColor="#fff"
+        android:textSize="60sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <!-- 天气信息 -->
+    <TextView
+        android:id="@+id/tv_now_info"
+        android:layout_gravity="end"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
