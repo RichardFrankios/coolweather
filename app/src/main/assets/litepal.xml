@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <!-- 数据库名称 -->
+    <dbname value="cool_weather"/>
+    <!-- 版本号 -->
+    <version value="1"/>
+
+    <!-- 映射 -->
+    <list>
+        <mapping class="com.wsj.test.coolweather.db.City"/>
+        <mapping class="com.wsj.test.coolweather.db.Country"/>
+        <mapping class="com.wsj.test.coolweather.db.Province"/>
+    </list>
+</litepal>
