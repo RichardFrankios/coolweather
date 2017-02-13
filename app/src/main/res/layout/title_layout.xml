@@ -3,6 +3,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="?attr/actionBarSize">
+    <Button
+        android:id="@+id/btn_nav"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/ic_home"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
     <!-- 城市名 -->
     <TextView
         android:id="@+id/tv_title_city_name"

@@ -123,12 +123,20 @@ public class ChooseAreaFragment extends android.support.v4.app.Fragment {
                     queryCounties();
                 }
                 else if (mCurrentLevel == LEVEL_COUNTRY){
-                    // 加载详细信息
                     String weatherId = mCountryList.get(position).getWeatherId();
-                    Intent intent = new Intent(getActivity(),WeatherActivity.class);
-                    intent.putExtra("weather_id",weatherId);
-                    startActivity(intent);
-                    getActivity().finish();
+                    if (getActivity() instanceof MainActivity){
+                        // 加载详细信息
+                        Intent intent = new Intent(getActivity(),WeatherActivity.class);
+                        intent.putExtra("weather_id",weatherId);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }else if (getActivity() instanceof WeatherActivity){
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        activity.dl_choose_area.closeDrawers();
+                        activity.srl_refresh.setRefreshing(true);
+                        activity.requestWeather(weatherId);
+                    }
+
                 }
             }
         });
