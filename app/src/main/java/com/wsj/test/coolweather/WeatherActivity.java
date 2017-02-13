@@ -1,5 +1,6 @@
 package com.wsj.test.coolweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.wsj.test.coolweather.gson.Forecast;
 import com.wsj.test.coolweather.gson.Weather;
+import com.wsj.test.coolweather.service.AutoUpdateService;
 import com.wsj.test.coolweather.util.HttpUtil;
 import com.wsj.test.coolweather.util.LogUtils;
 import com.wsj.test.coolweather.util.Utility;
@@ -231,6 +233,7 @@ public class WeatherActivity extends AppCompatActivity {
      * 处理并展示Weather实体类中的数据.
      */
     private void showWeatherInfo(Weather weather) {
+
         String citName = weather.basic.cityName;
         String updateTime = weather.basic.update.updateTime.split(" ")[1];
         String degree = weather.now.temperature + "℃";
@@ -268,6 +271,9 @@ public class WeatherActivity extends AppCompatActivity {
         tv_suggestion_sport.setText(sport);
 
         sv_weather.setVisibility(View.VISIBLE);
+
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 
 
