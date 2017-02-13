@@ -22,7 +22,7 @@ public class Forecast {
         public String min;
     }
     public class More {
-        @SerializedName("txt")
+        @SerializedName("txt_d")
         public String info;
     }
 }

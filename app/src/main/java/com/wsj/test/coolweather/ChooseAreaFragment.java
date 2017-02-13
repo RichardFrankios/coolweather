@@ -112,6 +112,7 @@ public class ChooseAreaFragment extends android.support.v4.app.Fragment {
         lv_city_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LogUtils.i(TAG,"当前级别 : " + mCurrentLevel);
                 if (mCurrentLevel == LEVEL_PROVINCE){
                     mSelectedProvince = mProvinceList.get(position);
                     // 加载该省份城市列表
@@ -174,12 +175,19 @@ public class ChooseAreaFragment extends android.support.v4.app.Fragment {
     /**
      * 加载该城市的县城列表.
      */
-    private void queryCounties() {
+    private void queryCities() {
+        LogUtils.i(TAG,"获取城市列表");
         tv_title_txt.setText(mSelectedProvince.getProvinceName());
         btn_title_back.setVisibility(View.VISIBLE);
 
+        LogUtils.i(TAG,"城市 id : " + mSelectedProvince.getId());
         mCityList = DataSupport.where("provinceid = ?",String.valueOf(mSelectedProvince.getId()))
                 .find(City.class);
+        LogUtils.i(TAG,"数据库数据 : " + DataSupport.findAll(City.class));
+        for (City city : DataSupport.findAll(City.class)) {
+            LogUtils.i(TAG,"城市 : " + city.getCityName());
+            LogUtils.i(TAG,"省份ID : " + city.getProvinceId());
+        }
         if (mCityList.size() > 0){
             mCurrentDataList.clear();
             for (City city : mCityList) {
@@ -190,20 +198,25 @@ public class ChooseAreaFragment extends android.support.v4.app.Fragment {
             mCurrentLevel = LEVEL_CITY;
         }else {
             final int provinceCode = mSelectedProvince.getProvinceCode();
-            queryFromServer(WEATHER_API_PROVINCE + "/" + provinceCode,TYPE_CITY);
+            final String cityUrl = WEATHER_API_PROVINCE + "/" + provinceCode;
+            LogUtils.d(TAG,"City URL : " + cityUrl);
+            queryFromServer(cityUrl,TYPE_CITY);
         }
     }
 
     /**
      * 加载城市列表.
      */
-    private void queryCities() {
-        tv_title_txt.setText(mSelectedCity.getCityName());
+    private void queryCounties() {
+        LogUtils.i(TAG,"获取县城列表 : queryCities");
+        tv_title_txt.setText(mSelectedProvince.getProvinceName());
         btn_title_back.setVisibility(View.VISIBLE);
 
-        mCountryList = DataSupport.where("cityid = ?",String.valueOf(mSelectedCity.getCityCode()))
+        mCountryList = DataSupport.where("cityid = ?",String.valueOf(mSelectedCity.getId()))
                 .find(Country.class);
+        LogUtils.i(TAG,"县城个数 : " + mCountryList.size());
         if (mCountryList.size() > 0){
+            LogUtils.d(TAG,"数据库中获取县城");
             mCurrentDataList.clear();
             for (Country country : mCountryList) {
                 mCurrentDataList.add(country.getCountryName());
@@ -212,6 +225,7 @@ public class ChooseAreaFragment extends android.support.v4.app.Fragment {
             lv_city_list.setSelection(0);
             mCurrentLevel = LEVEL_COUNTRY;
         }else{
+            LogUtils.d(TAG,"获取县城列表");
             final int proviceCode = mSelectedProvince.getProvinceCode();
             final int cityCode = mSelectedCity.getCityCode();
             final String address = WEATHER_API_PROVINCE + "/" + proviceCode + "/" + cityCode;
@@ -251,9 +265,9 @@ public class ChooseAreaFragment extends android.support.v4.app.Fragment {
                 if (type == TYPE_PROVINCE){
                     result = Utility.handleProvinceResponse(responseText);
                 }else if (type == TYPE_COUNTRY){
-                    result = Utility.handleCountryResponse(responseText);
+                    result = Utility.handleCountryResponse(responseText,mSelectedCity.getId());
                 }else if (type == TYPE_CITY){
-                    result = Utility.handleCityResponse(responseText);
+                    result = Utility.handleCityResponse(responseText,mSelectedProvince.getId());
                 }
 
                 if (result){

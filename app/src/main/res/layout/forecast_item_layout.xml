@@ -4,6 +4,7 @@
               android:layout_width="match_parent"
               android:layout_margin="15dp"
               android:layout_height="wrap_content">
+    <!-- 日期 -->
     <TextView
         android:id="@+id/tv_forecast_date"
         android:textColor="#fff"
@@ -11,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_weight="2"
         android:layout_height="wrap_content"/>
-
+    <!-- 预报信息 -->
     <TextView
         android:id="@+id/tv_forecast_info"
         android:textColor="#fff"
@@ -20,7 +21,7 @@
         android:gravity="center"
         android:layout_weight="1"
         android:layout_height="wrap_content"/>
-
+    <!-- 最高 -->
     <TextView
         android:id="@+id/tv_forecast_max"
         android:textColor="#fff"
@@ -29,7 +30,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"/>
-
+    <!-- 最低 -->
     <TextView
         android:id="@+id/tv_forecast_min"
         android:textColor="#fff"

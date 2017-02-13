@@ -50,11 +50,12 @@ public class WeatherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
-        // 使用装填栏 5.0 以后可使用.
+        // 使用状态栏 5.0 以后可使用.
         if (Build.VERSION.SDK_INT >= 21){
             View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN |
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
@@ -156,6 +157,7 @@ public class WeatherActivity extends AppCompatActivity {
                     return;
                 }
                 final String responseText = response.body().string();
+                LogUtils.i(TAG,"请求天气响应 : " + responseText);
                 final Weather weather = Utility.handleWeatherResponse(responseText);
                 runOnUiThread(new Runnable() {
                     @Override
@@ -196,10 +198,11 @@ public class WeatherActivity extends AppCompatActivity {
      */
     private void showWeatherInfo(Weather weather) {
         String citName = weather.basic.cityName;
-        String updateTiem = weather.basic.update.updateTime.split(" ")[1];
+        String updateTime = weather.basic.update.updateTime.split(" ")[1];
         String degree = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
         tv_title_city.setText(citName);
+        tv_title_update.setText(updateTime);
         tv_now_degree.setText(degree);
         tv_now_info.setText(weatherInfo);
         ll_forecast.removeAllViews();
@@ -213,7 +216,7 @@ public class WeatherActivity extends AppCompatActivity {
             dateText.setText(forecast.date);
             infoText.setText(forecast.more.info);
             maxText.setText(forecast.temperature.max);
-            maxText.setText(forecast.temperature.min);
+            minText.setText(forecast.temperature.min);
 
             ll_forecast.addView(view);
         }
@@ -229,7 +232,8 @@ public class WeatherActivity extends AppCompatActivity {
         tv_suggestion_comfort.setText(comfort);
         tv_suggestion_wash.setText(carWash);
         tv_suggestion_sport.setText(sport);
-        ll_forecast.setVisibility(View.VISIBLE);
+
+        sv_weather.setVisibility(View.VISIBLE);
     }
 
 

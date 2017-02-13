@@ -41,7 +41,7 @@ public class Utility {
         }
         return false;
     }
-    public static boolean handleCityResponse(final String response){
+    public static boolean handleCityResponse(final String response,final int provinceId){
         if (!TextUtils.isEmpty(response)){
             try {
                 JSONArray allCities = new JSONArray(response);
@@ -50,6 +50,7 @@ public class Utility {
                     City city = new City();
                     city.setCityName(cityObj.getString("name"));
                     city.setCityCode(cityObj.getInt("id"));
+                    city.setProvinceId(provinceId);
                     city.save();
                 }
                 return true;
@@ -59,7 +60,7 @@ public class Utility {
         }
         return false;
     }
-    public static boolean handleCountryResponse(final String response){
+    public static boolean handleCountryResponse(final String response,final int cityId){
         if (!TextUtils.isEmpty(response)){
             try {
                 JSONArray allCounties = new JSONArray(response);
@@ -68,6 +69,7 @@ public class Utility {
                     Country country = new Country();
                     country.setCountryName(countryObj.getString("name"));
                     country.setWeatherId(countryObj.getString("weather_id"));
+                    country.setCityId(cityId);
                     country.save();
                 }
                 return true;
