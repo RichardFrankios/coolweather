@@ -11,13 +11,36 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    // Gradle 签名APK
+    signingConfigs {
+        config {
+            storeFile file(KEY_PATH)
+            storePassword KEY_PASS
+            keyAlias ALIAS_NAME
+            keyPassword ALIAS_PASS
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
+    // 多渠道打包APK
+    productFlavors {
+        qihoo {
+            // 配置该渠道下的属性 ,复写 defaultConfig 中的属性.
+            applicationId "com.coolweather.android.qihoo"
+        }
+        baidu {
+            applicationId "com.coolweather.android.baidu"
+        }
+    }
+
 }
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
